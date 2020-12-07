@@ -1,10 +1,17 @@
 import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import './assets/styles/index.scss';
+import Home from './components/Home/Home';
 
 const App = () => {
   return (
-    <div>
-      <h1>Kanban Board</h1>
-    </div>
+    <>
+      <Router>
+        <Switch>
+          <Route path="/" component={Home} exact />
+        </Switch>
+      </Router>
+    </>
   );
 };
 
