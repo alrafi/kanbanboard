@@ -32,5 +32,18 @@
         }
       }
     }
+
+    .main-section {
+      display: flex;
+      margin-top: 2.5rem;
+
+      .card-box {
+        width: 30rem;
+        height: 50rem;
+        border: 1px solid $color-grey-dark;
+        border-radius: 0.8rem;
+        margin-right: 2.5rem;
+      }
+    }
   }
 }
