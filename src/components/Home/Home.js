@@ -48,7 +48,7 @@ const initialData = {
     'card-1': {
       id: 'card-1',
       title: 'Backlog',
-      taskIds: ['task-1', 'task-2', 'task-4'],
+      taskIds: ['task-1', 'task-2'],
       color: '#FFBA08',
     },
     'card-2': {
@@ -60,7 +60,7 @@ const initialData = {
     'card-3': {
       id: 'card-3',
       title: 'Done',
-      taskIds: [],
+      taskIds: ['task-4'],
       color: '#14E668',
     },
   },
