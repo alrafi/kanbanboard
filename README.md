@@ -4,7 +4,7 @@ Kanban Board app to manage project tasks
 
 ### Live
 
-[Live here](link)
+[Live here](https://kanbanboard-app.vercel.app/)
 
 ### Configure
 
