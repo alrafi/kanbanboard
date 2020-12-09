@@ -1,0 +1,40 @@
+@import '../../assets/styles/color.scss';
+
+.task-item-container {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+  background-color: $color-grey-dark;
+  padding: 1.5rem;
+
+  h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .info-wrapper {
+    display: flex;
+    align-items: center;
+
+    .task-assigne {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      background-color: $color-primary;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ffffff;
+      font-size: 1.4rem;
+      margin-right: 1rem;
+    }
+
+    .task-tag {
+      // height: 2rem;
+      background-color: $color-primary;
+      font-size: 1.4rem;
+      padding: 0.3rem 1.2rem;
+      border-radius: 1.2rem;
+    }
+  }
+}
