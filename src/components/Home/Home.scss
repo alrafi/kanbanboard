@@ -9,6 +9,29 @@
     width: 20%;
     height: 100vh;
     background-color: $color-primary;
+    padding: 3rem 2rem;
+
+    .name-container {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 7rem;
+        border-radius: 50%;
+        margin-right: 1.5rem;
+      }
+
+      .name-wrapper {
+        p {
+          font-size: 1.8rem;
+
+          &:first-child {
+            font-size: 2rem;
+            color: #ffffff;
+          }
+        }
+      }
+    }
   }
 
   .main-container {
@@ -35,15 +58,109 @@
 
     .main-section {
       display: flex;
+      width: 100%;
       margin-top: 2.5rem;
+      overflow-x: auto;
+    }
+  }
+}
 
-      .card-box {
-        width: 30rem;
-        height: 50rem;
-        border: 1px solid $color-grey-dark;
-        border-radius: 0.8rem;
-        margin-right: 2.5rem;
+.ReactModalPortal {
+  .ReactModal__Overlay {
+    opacity: 0;
+    // transform: translateX(-100px);
+    transition: all 500ms ease-in-out;
+
+    &.ReactModal__Overlay--after-open {
+      opacity: 1;
+      // transform: translateX(0px);
+      background-color: rgba(0, 0, 0, 0.5) !important;
+
+      .ReactModal__Content.ReactModal__Content--after-open {
+        width: 45rem;
+        // position: relative;
+        left: 50% !important;
+        transform: translateX(-50%);
+
+        .header {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 2.5rem;
+
+          h2 {
+            font-size: 2rem;
+          }
+        }
+
+        form {
+          .field {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+
+            h3 {
+              font-size: 1.6rem;
+              font-weight: 700;
+              margin-bottom: 0.8rem;
+            }
+
+            input {
+              height: 2rem;
+              padding: 1.8rem 1.5rem;
+              border-radius: 0.8rem;
+              border: 1px solid $color-primary;
+
+              &:focus {
+                outline: none;
+              }
+            }
+          }
+
+          .button-container {
+            margin-top: 3rem;
+
+            button {
+              width: 10rem;
+              height: 4rem;
+              border-radius: 0.8rem;
+              border: none;
+              outline: none;
+              background-color: $color-primary;
+              color: #ffffff;
+              cursor: pointer;
+
+              &.cancel-btn {
+                margin-right: 1rem;
+                background-color: transparent;
+                color: $color-black;
+                border: 1px solid $color-primary;
+              }
+            }
+          }
+        }
       }
+    }
+
+    &.ReactModal__Overlay--before-close {
+      opacity: 0;
+      // transform: translateX(-100px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 50%;
+  }
+
+  .layout-container {
+    .menu-container {
+      display: none;
+    }
+
+    .main-container {
+      width: 100%;
     }
   }
 }
