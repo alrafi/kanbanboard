@@ -16,26 +16,35 @@
   .info-wrapper {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    .task-assigne {
-      width: 2.4rem;
-      height: 2.4rem;
-      border-radius: 50%;
-      background-color: $color-primary;
+    .assigne-tags {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #ffffff;
-      font-size: 1.4rem;
-      margin-right: 1rem;
+      .task-assigne {
+        width: 2.4rem;
+        height: 2.4rem;
+        border-radius: 50%;
+        background-color: $color-primary;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 1.4rem;
+        margin-right: 1rem;
+        text-transform: uppercase;
+      }
+
+      .task-tag {
+        color: #ffffff;
+        background-color: $color-primary;
+        font-size: 1.4rem;
+        padding: 0.3rem 1.2rem;
+        border-radius: 1.2rem;
+      }
     }
 
-    .task-tag {
-      // height: 2rem;
-      background-color: $color-primary;
+    .task-days {
       font-size: 1.4rem;
-      padding: 0.3rem 1.2rem;
-      border-radius: 1.2rem;
     }
   }
 }

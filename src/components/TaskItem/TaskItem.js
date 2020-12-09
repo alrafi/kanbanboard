@@ -7,6 +7,20 @@ const TaskItem = ({ task, index }) => {
     return name.substring(0, 1);
   };
 
+  const countDays = (startDate, endDate) => {
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    const _startDate = startDate.split('/');
+    const _endDate = endDate.split('/');
+
+    const firstDate = new Date(_startDate[2], _startDate[0], _startDate[1]);
+    const secondDate = new Date(_endDate[2], _endDate[0], _endDate[1]);
+
+    const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+    return diffDays;
+  };
+
   return (
     <Draggable draggableId={task.issue_id} index={index}>
       {(provided) => (
@@ -18,8 +32,17 @@ const TaskItem = ({ task, index }) => {
         >
           <h3>{task.title}</h3>
           <div className="info-wrapper">
-            <div className="task-assigne">{getFirstLetter(task.assigne)}</div>
-            <div className="task-tag">{task.tags}</div>
+            <div className="assigne-tags">
+              {task.assigne && (
+                <div className="task-assigne">
+                  {getFirstLetter(task.assigne)}
+                </div>
+              )}
+              {task.tags && <div className="task-tag">{task.tags}</div>}
+            </div>
+            <div className="task-days">
+              {countDays(task.start_date, task.end_date)} days
+            </div>
           </div>
         </div>
       )}
