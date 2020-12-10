@@ -58,7 +58,7 @@
   .main-container {
     width: 80%;
     height: 100vh;
-    padding: 3rem 2rem;
+    padding: 3rem 2rem 1rem;
 
     .main-header {
       .header-title {
@@ -82,6 +82,16 @@
       width: 100%;
       margin-top: 2.5rem;
       overflow-x: auto;
+    }
+
+    footer {
+      padding-top: 2rem;
+
+      h3 {
+        font-size: 1.6rem;
+        width: 100%;
+        text-align: center;
+      }
     }
   }
 }
