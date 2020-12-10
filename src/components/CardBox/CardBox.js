@@ -1,40 +1,31 @@
 import React from 'react';
-import { Droppable, Draggable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import './CardBox.scss';
 import TaskItem from '../TaskItem/TaskItem';
 
 const CardBox = ({ card, tasks, index, openModal }) => {
   return (
     <>
-      <Draggable draggableId={card.id} index={index}>
+      <Droppable droppableId={card.id} type="task">
         {(provided) => (
-          <Droppable droppableId={card.id} type="task">
-            {(provided2, snapshot) => (
-              <div
-                ref={provided.innerRef}
-                {...provided.dragHandleProps}
-                {...provided.draggableProps}
-                className="card-box"
-              >
-                <div className="card-header-container">
-                  <h1 className="card-title">{card.title}</h1>
-                  <button onClick={() => openModal(card.id)}>+ Add Task</button>
-                </div>
-                <div
-                  ref={provided2.innerRef}
-                  {...provided2.droppableProps}
-                  className="task-container"
-                >
-                  {tasks.map((task, index) => (
-                    <TaskItem key={task.issue_id} task={task} index={index} />
-                  ))}
-                  {provided2.placeholder}
-                </div>
-              </div>
-            )}
-          </Droppable>
+          <div className="card-box">
+            <div className="card-header-container">
+              <h1 className="card-title">{card.title}</h1>
+              <button onClick={() => openModal(card.id)}>+ Add Task</button>
+            </div>
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              className="task-container"
+            >
+              {tasks.map((task, index) => (
+                <TaskItem key={task.issue_id} task={task} index={index} />
+              ))}
+              {provided.placeholder}
+            </div>
+          </div>
         )}
-      </Draggable>
+      </Droppable>
     </>
   );
 };

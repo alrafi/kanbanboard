@@ -34,6 +34,8 @@
 
   .task-container {
     min-height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
     width: 100%;
   }
 }
