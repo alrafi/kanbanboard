@@ -217,7 +217,6 @@ const Home = () => {
           <p>{data.cards['card-2'].taskIds.length} To Do Tasks</p>
           <p>{data.cards['card-3'].taskIds.length} Completed Tasks</p>
         </div>
-        <h3>Made with ❤️ by hafisalrafi</h3>
       </div>
 
       <div className="main-container">
@@ -246,6 +245,10 @@ const Home = () => {
             })}
           </main>
         </DragDropContext>
+
+        <footer>
+          <h3>Made with ❤️ by hafisalrafi</h3>
+        </footer>
       </div>
     </div>
   );
