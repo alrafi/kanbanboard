@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './Home.scss';
 import logoProsa from '../../assets/img/logo-prosa.png';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
+import initialData from '../../data/intialData';
 import CardBox from '../CardBox/CardBox';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
@@ -9,75 +10,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 Modal.setAppElement('#root');
 
-const initialData = {
-  tasks: {
-    'task-1': {
-      issue_id: 'task-1',
-      title: 'Improve accuracy of voice-to-text model',
-      assigne: 'Alex Havard',
-      tags: 'Research',
-      start_date: '12/5/2020',
-      end_date: '12/7/2020',
-    },
-    'task-2': {
-      issue_id: 'task-2',
-      title: 'Create API to load user info from database',
-      assigne: 'Benedic Sancho',
-      tags: 'Backend',
-      start_date: '12/5/2020',
-      end_date: '12/7/2020',
-    },
-    'task-3': {
-      issue_id: 'task-3',
-      title: 'Two-factor authentication to make private',
-      assigne: 'Charles Tom',
-      tags: 'Design',
-      start_date: '12/5/2020',
-      end_date: '12/7/2020',
-    },
-    'task-4': {
-      issue_id: 'task-4',
-      title: 'Bugs fix on customer dashboard',
-      assigne: 'Daniel Ortega',
-      tags: 'Frontend',
-      start_date: '12/5/2020',
-      end_date: '12/7/2020',
-    },
-  },
-  cards: {
-    'card-1': {
-      id: 'card-1',
-      title: 'Backlog',
-      taskIds: ['task-1', 'task-2'],
-      color: '#FFBA08',
-    },
-    'card-2': {
-      id: 'card-2',
-      title: 'To Do',
-      taskIds: ['task-3'],
-      color: '#17C9FF',
-    },
-    'card-3': {
-      id: 'card-3',
-      title: 'Done',
-      taskIds: ['task-4'],
-      color: '#14E668',
-    },
-  },
-  cardOrder: ['card-1', 'card-2', 'card-3'],
-};
-
 const Home = () => {
-  const [state, setState] = useState(initialData);
+  const _data = localStorage.getItem('dataKanban')
+    ? JSON.parse(localStorage.getItem('dataKanban'))
+    : initialData;
+  const [data, setData] = useState(_data);
   const [title, setTitle] = useState('');
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [newTaskCardId, setNewTaskCardId] = useState('');
   const [assigne, setAssigne] = useState('');
   const [tags, setTags] = useState('');
+  const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
 
-  const onDragEnd = (result) => {
-    const { draggableId, source, destination, type } = result;
+  const onDragEnd = (res) => {
+    const { draggableId, source, destination, type } = res;
     if (
       !destination ||
       (source.droppableId === destination.droppableId &&
@@ -86,26 +33,13 @@ const Home = () => {
       return;
     }
 
-    if (type === 'card') {
-      const newCardOrder = Array.from(state.cardOrder);
-      newCardOrder.splice(source.index, 1);
-      newCardOrder.splice(destination.index, 0, draggableId);
-
-      const newState = {
-        ...state,
-        cardOrder: newCardOrder,
-      };
-      setState(newState);
-      return;
-    }
-
     if (type === 'task') {
-      const start = state.cards[source.droppableId];
-      const finish = state.cards[destination.droppableId];
+      const sourceData = data.cards[source.droppableId];
+      const destData = data.cards[destination.droppableId];
 
       // move task on same card
-      if (start === finish) {
-        const card = state.cards[source.droppableId];
+      if (sourceData === destData) {
+        const card = data.cards[source.droppableId];
 
         // set new ordered
         const newTaskIds = Array.from(card.taskIds);
@@ -117,46 +51,46 @@ const Home = () => {
           taskIds: newTaskIds,
         };
 
-        const newState = {
-          ...state,
+        const newData = {
+          ...data,
           cards: {
-            ...state.cards,
+            ...data.cards,
             [newCard.id]: newCard,
           },
         };
-        setState(newState);
+        setData(newData);
+        localStorage.setItem('dataKanban', JSON.stringify(newData));
         return;
       }
 
       // move task to another card
-      const startTaskIds = Array.from(start.taskIds);
+      const startTaskIds = Array.from(sourceData.taskIds);
       startTaskIds.splice(source.index, 1);
-      const newStart = {
-        ...start,
+      const newSource = {
+        ...sourceData,
         taskIds: startTaskIds,
       };
 
-      const finishTaskIds = Array.from(finish.taskIds);
+      const finishTaskIds = Array.from(destData.taskIds);
       finishTaskIds.splice(destination.index, 0, draggableId);
-      const newFinish = {
-        ...finish,
+      const newDest = {
+        ...destData,
         taskIds: finishTaskIds,
       };
 
-      const newState = {
-        ...state,
+      const newData = {
+        ...data,
         cards: {
-          ...state.cards,
-          [newStart.id]: newStart,
-          [newFinish.id]: newFinish,
+          ...data.cards,
+          [newSource.id]: newSource,
+          [newDest.id]: newDest,
         },
       };
-      setState(newState);
+      setData(newData);
+      localStorage.setItem('dataKanban', JSON.stringify(newData));
       return;
     }
   };
-
-  const [isModalAddTaskOpen, setIsModalAddTaskOpen] = useState(false);
 
   const toggleModalAddTask = () => {
     setIsModalAddTaskOpen(!isModalAddTaskOpen);
@@ -238,9 +172,9 @@ const Home = () => {
     e.preventDefault();
     if (title === '') return;
 
-    const length = Object.keys(state.tasks).length;
+    const length = Object.keys(data.tasks).length;
 
-    const _data = { ...state };
+    const _data = { ...data };
     const issue_id = `task-${length + 1}`;
 
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -257,6 +191,9 @@ const Home = () => {
     const _tasks = [..._data.cards[newTaskCardId].taskIds];
 
     _data.cards[newTaskCardId].taskIds = [..._tasks, issue_id];
+
+    // save data local storage
+    localStorage.setItem('dataKanban', JSON.stringify(_data));
 
     setIsModalAddTaskOpen(false);
     setTitle('');
@@ -286,32 +223,21 @@ const Home = () => {
         </header>
 
         <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="all-cards" direction="horizontal" type="card">
-            {(provided) => (
-              <main
-                className="main-section"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {state.cardOrder.map((cardId, index) => {
-                  const card = state.cards[cardId];
-                  const tasks = card.taskIds.map(
-                    (taskId) => state.tasks[taskId]
-                  );
-                  return (
-                    <CardBox
-                      key={cardId}
-                      card={card}
-                      tasks={tasks}
-                      index={index}
-                      openModal={handleOpenModal}
-                    ></CardBox>
-                  );
-                })}
-                {provided.placeholder}
-              </main>
-            )}
-          </Droppable>
+          <main className="main-section">
+            {data.cardSlot.map((cardId, index) => {
+              const card = data.cards[cardId];
+              const tasks = card.taskIds.map((taskId) => data.tasks[taskId]);
+              return (
+                <CardBox
+                  key={cardId}
+                  card={card}
+                  tasks={tasks}
+                  index={index}
+                  openModal={handleOpenModal}
+                ></CardBox>
+              );
+            })}
+          </main>
         </DragDropContext>
       </div>
     </div>
