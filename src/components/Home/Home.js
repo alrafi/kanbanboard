@@ -211,6 +211,13 @@ const Home = () => {
             <p>Product Manager</p>
           </div>
         </div>
+        <div className="task-count-container">
+          <h2>Your Tasks</h2>
+          <p>{data.cards['card-1'].taskIds.length} Open Tasks</p>
+          <p>{data.cards['card-2'].taskIds.length} To Do Tasks</p>
+          <p>{data.cards['card-3'].taskIds.length} Completed Tasks</p>
+        </div>
+        <h3>Made with ❤️ by hafisalrafi</h3>
       </div>
 
       <div className="main-container">
